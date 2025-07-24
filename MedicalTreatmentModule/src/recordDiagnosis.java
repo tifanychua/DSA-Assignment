@@ -12,6 +12,10 @@ public class recordDiagnosis extends JFrame {
     private JButton jbtAdd = new JButton("Back");
     private JButton jbtDelete = new JButton("Submit");
     private JLabel topLabel = new JLabel("Patient Diagnosis Record");
+    private JTextField othersFields = new JTextField(20);
+    private JLabel pressureLabel=new JLabel("Blood Pressure (mmHg):");
+    private JLabel heartRateLabel=new JLabel("Heart Rate (bpm)");
+    private JLabel temperatureLabel=new JLabel("Temperature (°C)");
 
     String[] diagnoses = {
         "Common Cold",
@@ -36,9 +40,7 @@ public class recordDiagnosis extends JFrame {
     "Stable",
     "Critical",
     "In Surgery",
-    "Recovering",
-    "Discharged",
-    "Deceased"
+    "Recovering"
 };
 
     public recordDiagnosis() {
@@ -61,7 +63,7 @@ public class recordDiagnosis extends JFrame {
 
         JPanel jpCenter = new JPanel(new GridLayout(0, 1, 0, 20)); 
 
-        JLabel labelPatient = new JLabel("Patient Name");
+        JLabel labelPatient = new JLabel("Patient");
         labelPatient.setFont(new Font("SansSerif", Font.BOLD, 28));
         jpCenter.add(labelPatient);
         jpCenter.add(jtfPatientName);
@@ -100,17 +102,19 @@ scrollPane.setPreferredSize(new Dimension(800, 1000));
 symptomsForm.add(symptomPanel);
 jpCenter.add(labelSymptoms);
 jpCenter.add(symptomsForm);
-
+        othersFields.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        othersFields.setVisible(false);
         JLabel labelDiagnosis = new JLabel("Diagnosis");
         labelDiagnosis.setFont(new Font("SansSerif", Font.BOLD, 28));
         jpCenter.add(labelDiagnosis);
-
+        
         JComboBox<String> diagnosisComboBox = new JComboBox<>(diagnoses);
         diagnosisComboBox.setPreferredSize(new Dimension(250, 30));
         diagnosisComboBox.setFont(new Font("SansSerif", Font.PLAIN, 20));
-
+        
         JPanel diagnosisPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         diagnosisPanel.add(diagnosisComboBox);
+        diagnosisPanel.add(othersFields);
         jpCenter.add(diagnosisPanel);
 
        
@@ -157,26 +161,86 @@ JPanel medicinePanel = new JPanel(new BorderLayout());
 medicinePanel.add(new JLabel("Medicines:"), BorderLayout.NORTH);
 medicinePanel.add(scrollPane1, BorderLayout.CENTER);
 
-JLabel doctorLabel=new JLabel("Doctor:");
+JLabel doctorLabel=new JLabel("Doctor");
 doctorLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
 treatmentPanel.add(doctorLabel);
 treatmentPanel.add(new JTextField());
+
+
+JPanel pressurePanel=new JPanel(new GridLayout(1,2));
+JSpinner spnPressure = new JSpinner(new SpinnerNumberModel(120, 0, 300, 1));
+spnPressure.setPreferredSize(new Dimension(60, 35));
+JComponent editor = spnPressure.getEditor();
+JFormattedTextField textField = ((JSpinner.DefaultEditor) editor).getTextField();
+textField.setFont(new Font("SansSerif", Font.PLAIN, 18));
+textField.setHorizontalAlignment(JTextField.CENTER);
+textField.setOpaque(false);        
+pressurePanel.add(pressureLabel);
+pressureLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+pressurePanel.add(spnPressure);
+treatmentPanel.add(pressurePanel);
+
+JPanel heartPanel=new JPanel(new GridLayout(1,2));
+JSpinner spnHeartRate = new JSpinner(new SpinnerNumberModel(120, 0, 300, 1));
+spnHeartRate.setPreferredSize(new Dimension(60, 35));
+JComponent editorRate = spnHeartRate.getEditor();
+JFormattedTextField textFieldRate = ((JSpinner.DefaultEditor) editorRate).getTextField();
+textFieldRate.setFont(new Font("SansSerif", Font.PLAIN, 18));
+textFieldRate.setHorizontalAlignment(JTextField.CENTER);
+textFieldRate.setOpaque(false); 
+heartPanel.add(heartRateLabel);
+heartPanel.add(spnHeartRate);
+treatmentPanel.add(heartPanel);
+heartRateLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+
+JPanel temperaturePanel=new JPanel(new GridLayout(1,2));
+JSpinner spnTemperature = new JSpinner(new SpinnerNumberModel(120, 0, 300, 1));
+spnTemperature.setPreferredSize(new Dimension(60, 35));
+JComponent editorTemp = spnTemperature.getEditor();
+JFormattedTextField textFieldTemp = ((JSpinner.DefaultEditor) editorTemp).getTextField();
+textFieldTemp.setFont(new Font("SansSerif", Font.PLAIN, 18));
+textFieldTemp.setHorizontalAlignment(JTextField.CENTER);
+textFieldTemp.setOpaque(false);     
+temperaturePanel.add(temperatureLabel);
+temperaturePanel.add(spnTemperature);
+treatmentPanel.add(temperaturePanel);
+temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+
+
 treatmentPanel.add(medicinePanel);
 
         add(jpInfo, BorderLayout.BEFORE_FIRST_LINE);
         medicalPanel.add(jpCenter);
         add(jpSouth, BorderLayout.SOUTH);
         jpInfo.add(jpTop);
-                medicalPanel.add(treatmentPanel);
+        medicalPanel.add(treatmentPanel);
 
         add(medicalPanel);
-        
         jpTop.setBorder(BorderFactory.createEmptyBorder(20, 500, 50, 0));
         jpInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         jpSouth.setBorder(BorderFactory.createEmptyBorder(20, 0, 30, 0));
         jpCenter.setBorder(BorderFactory.createEmptyBorder(20, 20, 30, 0));
         treatmentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
+        
+         class DiagnosisListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        String selected = (String) diagnosisComboBox.getSelectedItem();
+        if ("Others".equals(selected)) {
+            othersFields.setVisible(true);
+        } else {
+            othersFields.setVisible(false);
+        }
+        diagnosisPanel.revalidate();
+        diagnosisPanel.repaint();
     }
+    }
+         
+        diagnosisComboBox.addActionListener(new DiagnosisListener());
+        
+        
+}
+    
+    
 
     public static void main(String[] args) {
         recordDiagnosis frm = new recordDiagnosis();
