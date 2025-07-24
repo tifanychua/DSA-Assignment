@@ -1,47 +1,43 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import adt.ArrayList; 
+import adt.PatientInterface;
+import entity.Patient;
 
 public class Test {
+  public static void main(String[] args) {
+    // 1. Create the list
+    PatientInterface<Patient> patientList = new ArrayList<>();
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Auto Moving Button");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(400, 300);
-            frame.setLayout(null); // manual layout
+    // 2. Add patients
+    patientList.add(new Patient("990101-01-1234", "Ali Bin Abu", "S1234567", "0123456789", "01/01/1999", 
+      "Male", "O", "Peanuts", "Asthma", "KL", "Appendix", "Hepatitis B", "Diabetes", 
+      "22/07/2025", "Dr. Lim", "Student", "Single", "Islam", "No", 
+      "Abu Bin Ali", "0191234567", "Father"));
 
-            JButton movingBtn = new JButton("I'm Alive!");
-            movingBtn.setBounds(120, 100, 150, 50);
-            movingBtn.setBackground(new Color(200, 200, 255));
-            movingBtn.setFocusPainted(false);
-            movingBtn.setFont(new Font("Arial", Font.BOLD, 16));
+    patientList.add(new Patient("991212-05-5678", "Siti Aminah", "S2234567", "0139876543", "12/12/1999", 
+      "Female", "A", "None", "None", "PJ", "None", "Covid-19", "Hypertension", 
+      "23/07/2025", "Dr. Tan", "Clerk", "Married", "Islam", "No", 
+      "Mohd Ali", "0168889999", "Husband"));
 
-            frame.add(movingBtn);
+    System.out.println("=== All Patients ===");
+    System.out.println(patientList); // thanks to toString()
 
-            // Auto movement timer
-            Timer timer = new Timer(50, null);
-            timer.addActionListener(new ActionListener() {
-                int direction = 1; // 1 for right, -1 for left
-                int step = 5;
-                int minX = 50, maxX = 200;
+    // 3. Remove a patient (position is 1-based)
+    System.out.println("=== Removing patient at position 1 ===");
+    patientList.remove(1);
 
-                public void actionPerformed(ActionEvent e) {
-                    Point pos = movingBtn.getLocation();
-                    int newX = pos.x + (direction * step);
+    System.out.println("=== After Removal ===");
+    System.out.println(patientList);
 
-                    if (newX > maxX || newX < minX) {
-                        direction *= -1; // reverse direction
-                    }
+    // 4. Edit a patient (replace at given position)
+    System.out.println("=== Replacing patient at position 1 ===");
+    Patient updatedPatient = new Patient("990101-01-1234", "Ali Bin Bakar", "S9999999", "0198765432", "01/01/1999", 
+      "Male", "B", "None", "Flu", "New Address", "None", "None", "None", 
+      "24/07/2025", "Dr. New", "Teacher", "Single", "Islam", "No", 
+      "New Father", "0188888888", "Father");
 
-                    movingBtn.setLocation(newX, pos.y);
-                }
-            });
+    patientList.replace(1, updatedPatient);
 
-            timer.start(); // Start the automatic animation
-
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
-    }
+    System.out.println("=== After Replacement ===");
+    System.out.println(patientList);
+  }
 }

@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
@@ -45,9 +46,7 @@ public class RegistrationForm extends JPanel{
     private JLabel address2;
     private JComboBox<String> tfAddress2;
     private JLabel address3;
-    private JComboBox<String> tfAddress3;
-    private JLabel address4;
-    private JTextField tfAddress4;
+    private JTextField tfAddress3;
     private JLabel appointmentDate;
     private JTextField tfAppDate;
     private JLabel gender;
@@ -61,6 +60,7 @@ public class RegistrationForm extends JPanel{
     public RegistrationForm(JFrame frame,JPanel previousPage){
         this.frame = frame;
         this.previousPage = previousPage;
+        
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -109,8 +109,15 @@ public class RegistrationForm extends JPanel{
     }
     
     private JPanel patientEntryPanel(){
+        String queue="101";
         JPanel panel = new JPanel(new GridLayout(2,1,0,10));
         JButton walkIn = buttonFormat("Walk-in");
+        walkIn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,"Queue number is "+queue);
+            }
+          });
         JButton appointment = buttonFormat("Appointment");
    
         panel.add(walkIn);
@@ -175,6 +182,8 @@ public class RegistrationForm extends JPanel{
        bloodType = labelFormat("Blood Type : ");
        String[] bloodTypeOptions = {"A", "B", "AB", "O", "A-", "B-", "AB-", "O-"};
        tfBloodType = new JComboBox<>(bloodTypeOptions);
+       tfBloodType.setFont(new Font("Serif", Font.PLAIN, 20));
+       tfBloodType.setEnabled(false);
        
        allergies = labelFormat("Allergies : ");
        tfAllergies=textFieldFormat(false);
@@ -186,17 +195,14 @@ public class RegistrationForm extends JPanel{
        address1 = labelFormat("Street Address : ");
        tfAddress1=textFieldFormat(false);
        
-       address2 = labelFormat("Country : ");
-       String[] address2Options = {"A", "B", "AB", "O", "A-", "B-", "AB-", "O-"};
+       address2 = labelFormat("State : ");
+       String[] address2Options = {"Johor", "Kedah", "Kelantan", "Malacca", "Negeri Sembilan", "Pahang", "Penang", "Perak", "Perlis", "Sabah", "Sarawak", "Selangor", "Terengganu"};
        tfAddress2 = new JComboBox<>(address2Options);
+       tfAddress2.setFont(new Font("Serif", Font.PLAIN, 20));
+       tfAddress2.setEnabled(false);
        
-       address3 = labelFormat("State : ");
-       String[] address3Options = {"Johor", "Kedah", "Kelantan", "Malacca", "Negeri Sembilan", "Pahang", "Penang", "Perak", "Perlis", "Sabah", "Sarawak", "Selangor", "Terengganu"};
-       tfAddress3 = new JComboBox<>(address2Options);
-       
-       address4 = labelFormat("Postcode : ");
-       tfAddress4 =textFieldFormat(false);
-       
+       address3 = labelFormat("Postcode : ");
+       tfAddress3 =textFieldFormat(false);
        
        appointmentDate = labelFormat("Appointment Date : ");
        tfAppDate=textFieldFormat(false);
@@ -226,8 +232,6 @@ public class RegistrationForm extends JPanel{
        form.add(tfAddress2);
        form.add(address3);
        form.add(tfAddress3);
-       form.add(address4);
-       form.add(tfAddress4);
        form.add(appointmentDate);
        form.add(tfAppDate);
        
@@ -260,8 +264,7 @@ public class RegistrationForm extends JPanel{
                     tfExitingMedicalCond.setEditable(true);
                     tfAddress1.setEditable(true);
                     tfAddress2.setEnabled(true);
-                    tfAddress3.setEnabled(true);
-                    tfAddress4.setEnabled(true);
+                    tfAddress3.setEditable(true);
                     tfAppDate.setEditable(true);
                     maleBtn.setEnabled(true);
                     femaleBtn.setEnabled(true);
@@ -272,13 +275,12 @@ public class RegistrationForm extends JPanel{
                     tfStudID.setEditable(false);
                     tfPhoneNum.setEditable(false);
                     tfBirthDate.setEditable(false);
-                    tfBloodType.setEditable(false);
+                    tfBloodType.setEnabled(false);
                     tfAllergies.setEditable(false);
                     tfExitingMedicalCond.setEditable(false);
                     tfAddress1.setEditable(false);
-                    tfAddress2.setEditable(false);
+                    tfAddress2.setEnabled(false);
                     tfAddress3.setEditable(false);
-                    tfAddress4.setEditable(false);
                     tfAppDate.setEditable(false);
                     maleBtn.setEnabled(false);
                     femaleBtn.setEnabled(false);
@@ -290,7 +292,10 @@ public class RegistrationForm extends JPanel{
           btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                int dlt = JOptionPane.showConfirmDialog(null,"Are you sure you want to delete?", "Confirm Deletion",  JOptionPane.YES_NO_OPTION);
+                if (dlt==JOptionPane.YES_OPTION){
+                    
+                }
             }
           });
           
