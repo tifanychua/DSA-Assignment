@@ -18,24 +18,25 @@ public class TreatmentHistory extends JFrame {
     public TreatmentHistory() {
         JPanel jpTop=new JPanel();
         topicLabel.setFont(new Font("SansSerif", Font.BOLD, 56));
-        String[] columnNames = {"Treatment ID", "Diagnosis", "Treatment Type", "Status", "Follow-up", "Date"};
+        String[] columnNames = {"Treatment ID", "Diagnosis","Date" , "Status", "Follow-up" };
 
         Object[][] data = {
-            {"T001", "ABC Supplies", "0123456789", "Cocoa", "2025-07-20", "abc@supplies.com"},
-            {"S002", "XYZ Traders", "0987654321", "Sugar", 10.5, "xyz@traders.com"}
+            {"T001", "ABC Supplies", "0123456789", "Cocoa", "2025-07-20"},
+            {"S002", "XYZ Traders", "0987654321", "Sugar", 10.5}
         };
 
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
 
         JTable table = new JTable(model);
-
+        
         JScrollPane scrollPane = new JScrollPane(table);
-        table.setFont(new Font("SansSerif", Font.PLAIN, 30));
-        table.setRowHeight(100);  
+        table.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        table.setRowHeight(28);  
 
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("SansSerif", Font.BOLD, 32));
+        table.getTableHeader().setFont(new Font("Serif", Font.BOLD, 16));
         jpTop.add(topicLabel,BorderLayout.CENTER);
+        JPanel searchPanel=new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
         jpTop.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
         table.setBorder(BorderFactory.createEmptyBorder(0, 60, 0, 0));
         table.setPreferredScrollableViewportSize(new Dimension(1800, 600));
@@ -46,9 +47,17 @@ okButton.setPreferredSize(buttonSize);
         buttonPanel.setFont(new Font("SansSerif", Font.BOLD, 24));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
         add(jpTop,BorderLayout.NORTH);
-        JPanel recordTable=new JPanel();
-        recordTable.add(scrollPane);
-        add(recordTable);
+        JPanel recordTable=new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchPanel.add(new JLabel("Search"));
+        searchPanel.add(new JTextField(25));
+        JPanel infoPanel=new JPanel(new FlowLayout(FlowLayout.LEFT));
+        infoPanel.add(searchPanel);
+        recordTable.add(scrollPane,BorderLayout.CENTER);
+        infoPanel.add(recordTable);
+        recordTable.setBorder(BorderFactory.createEmptyBorder(0, 50, 50, 0));
+        searchPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
+
+        add(infoPanel);
         add(buttonPanel,BorderLayout.SOUTH);
     }
 

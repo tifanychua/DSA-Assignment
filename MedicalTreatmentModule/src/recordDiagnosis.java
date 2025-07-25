@@ -2,8 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.time.LocalDate;
+import javafx.beans.value.ChangeListener;
 
 public class recordDiagnosis extends JFrame {
+final int MAX_MEDICINES = 5;
+final int[] medicineCount = {1}; 
 
     private JTextField jtfPatientName = new JTextField(20);
     private JTextField jtfTreatment = new JTextField();
@@ -41,6 +44,21 @@ public class recordDiagnosis extends JFrame {
     "Critical",
     "In Surgery",
     "Recovering"
+};
+    
+    String[] medicineList = {
+    "medicine1",
+    "medicine2",
+    "medicine3",
+    "medicine4",
+    "medicine5"
+};
+    String[] quantityList= {
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
 };
 
     public recordDiagnosis() {
@@ -151,37 +169,67 @@ jpCenter.add(statusDropdown);
         jpSouth.add(jbtDelete);
 
         JPanel medicalPanel=new JPanel(new GridLayout(0,2));
-        JPanel treatmentPanel=new JPanel(new GridLayout(10,1,0,20));
-        JTextArea medicineArea = new JTextArea(4, 30); // 4 rows, 30 columns
-medicineArea.setLineWrap(true);
-medicineArea.setWrapStyleWord(true);
-JScrollPane scrollPane1 = new JScrollPane(medicineArea);
+        JPanel treatmentPanel=new JPanel(new GridLayout(5,1,0,20));
+       
 
-JPanel medicinePanel = new JPanel(new BorderLayout());
-medicinePanel.add(new JLabel("Medicines:"), BorderLayout.NORTH);
-medicinePanel.add(scrollPane1, BorderLayout.CENTER);
 
-JLabel doctorLabel=new JLabel("Doctor");
+JLabel doctorLabel=new JLabel("Doctor: ");
+doctorLabel.setPreferredSize(new Dimension(50, 40)); 
 doctorLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
 treatmentPanel.add(doctorLabel);
-treatmentPanel.add(new JTextField());
 
 
 JPanel pressurePanel=new JPanel(new GridLayout(1,2));
+JPanel pressureField=new JPanel(new FlowLayout());
 JSpinner spnPressure = new JSpinner(new SpinnerNumberModel(120, 0, 300, 1));
-spnPressure.setPreferredSize(new Dimension(60, 35));
+JSpinner spnPressure2 = new JSpinner(new SpinnerNumberModel(80, 0, 300, 1));
+        spnPressure.setPreferredSize(new Dimension(230, 50));
+        spnPressure2.setPreferredSize(new Dimension(230, 50));
+
+
 JComponent editor = spnPressure.getEditor();
 JFormattedTextField textField = ((JSpinner.DefaultEditor) editor).getTextField();
+
 textField.setFont(new Font("SansSerif", Font.PLAIN, 18));
 textField.setHorizontalAlignment(JTextField.CENTER);
 textField.setOpaque(false);        
 pressurePanel.add(pressureLabel);
 pressureLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
-pressurePanel.add(spnPressure);
+pressureField.add(spnPressure);
+
+JComponent editorDiastolic = spnPressure2.getEditor();
+JFormattedTextField textFieldDiastolic = ((JSpinner.DefaultEditor) editorDiastolic).getTextField();
+textFieldDiastolic.setFont(new Font("SansSerif", Font.PLAIN, 18));
+textFieldDiastolic.setHorizontalAlignment(JTextField.CENTER);
+textFieldDiastolic.setOpaque(false); 
+pressureField.add(spnPressure2);
+pressurePanel.add(pressureField);
 treatmentPanel.add(pressurePanel);
+temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+textFieldDiastolic.setForeground(Color.GREEN);
+
+spnPressure2.addChangeListener(e -> {
+    int value = (int) spnPressure2.getValue();
+    if (value < 60|| value >90) {
+        textFieldDiastolic.setForeground(Color.RED);
+    } else {
+        textFieldDiastolic.setForeground(Color.GREEN);
+    }
+});
+
+textField.setForeground(Color.GREEN);
+
+spnPressure.addChangeListener(e -> {
+    int value = (int) spnPressure.getValue();
+    if (value < 90 || value > 140) {
+        textField.setForeground(Color.RED);
+    } else {
+        textField.setForeground(Color.GREEN);
+    }
+});
 
 JPanel heartPanel=new JPanel(new GridLayout(1,2));
-JSpinner spnHeartRate = new JSpinner(new SpinnerNumberModel(120, 0, 300, 1));
+JSpinner spnHeartRate = new JSpinner(new SpinnerNumberModel(80, 0, 300, 1));
 spnHeartRate.setPreferredSize(new Dimension(60, 35));
 JComponent editorRate = spnHeartRate.getEditor();
 JFormattedTextField textFieldRate = ((JSpinner.DefaultEditor) editorRate).getTextField();
@@ -192,9 +240,19 @@ heartPanel.add(heartRateLabel);
 heartPanel.add(spnHeartRate);
 treatmentPanel.add(heartPanel);
 heartRateLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+textFieldRate.setForeground(Color.GREEN);
+
+spnHeartRate.addChangeListener(e -> {
+    int value = (int) spnHeartRate.getValue();
+    if (value < 60 || value > 100) {
+        textFieldRate.setForeground(Color.RED);
+    } else {
+        textFieldRate.setForeground(Color.GREEN);
+    }
+});
 
 JPanel temperaturePanel=new JPanel(new GridLayout(1,2));
-JSpinner spnTemperature = new JSpinner(new SpinnerNumberModel(120, 0, 300, 1));
+JSpinner spnTemperature = new JSpinner(new SpinnerNumberModel(37.5, 0, 300, 1));
 spnTemperature.setPreferredSize(new Dimension(60, 35));
 JComponent editorTemp = spnTemperature.getEditor();
 JFormattedTextField textFieldTemp = ((JSpinner.DefaultEditor) editorTemp).getTextField();
@@ -205,22 +263,85 @@ temperaturePanel.add(temperatureLabel);
 temperaturePanel.add(spnTemperature);
 treatmentPanel.add(temperaturePanel);
 temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+textFieldTemp.setForeground(Color.GREEN);
 
+spnTemperature.addChangeListener(e -> {
+    int value = (int) spnHeartRate.getValue();
+    if (value < 36.0 || value > 38.0) {
+        textFieldTemp.setForeground(Color.RED);
+    } else {
+        textFieldTemp.setForeground(Color.GREEN);
+    }
+});
 
-treatmentPanel.add(medicinePanel);
 
         add(jpInfo, BorderLayout.BEFORE_FIRST_LINE);
         medicalPanel.add(jpCenter);
-        add(jpSouth, BorderLayout.SOUTH);
         jpInfo.add(jpTop);
-        medicalPanel.add(treatmentPanel);
 
-        add(medicalPanel);
         jpTop.setBorder(BorderFactory.createEmptyBorder(20, 500, 50, 0));
         jpInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         jpSouth.setBorder(BorderFactory.createEmptyBorder(20, 0, 30, 0));
         jpCenter.setBorder(BorderFactory.createEmptyBorder(20, 20, 30, 0));
-        treatmentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
+        treatmentPanel.setBorder(BorderFactory.createEmptyBorder(30, 20, 0, 0));
+                add(jpSouth, BorderLayout.SOUTH);
+
+JPanel medicinePanel = new JPanel(new GridLayout(0, 2));
+
+JButton addMedicineButton = new JButton("Add Medicine");
+
+JPanel buttonPanel1 = new JPanel();
+buttonPanel1.add(addMedicineButton);
+
+JPanel medicineContainer = new JPanel();
+
+medicineContainer.add(medicinePanel); 
+medicineContainer.add(buttonPanel1);      
+Runnable addMedicineRow = () -> {
+      if (medicineCount[0] >= MAX_MEDICINES) {
+        JOptionPane.showMessageDialog(null, "You can only add up to 4 medicines.");
+        return;
+    }
+    JComboBox<String> medicineComboBox = new JComboBox<>(medicineList);
+        medicineComboBox.setPreferredSize(new Dimension(200, 50));
+        medicineComboBox.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        JComboBox<String> quantityComboBox = new JComboBox<>(quantityList);
+        quantityComboBox.setPreferredSize(new Dimension(200, 50));
+        quantityComboBox.setFont(new Font("SansSerif", Font.PLAIN, 20));
+    medicineComboBox.setBorder(BorderFactory.createTitledBorder("Medicine"));
+    quantityComboBox.setBorder(BorderFactory.createTitledBorder("Quantity(pieces)"));
+
+    medicinePanel.add(medicineComboBox);
+    medicinePanel.add(quantityComboBox);
+
+    medicinePanel.revalidate();
+    medicinePanel.repaint();
+        medicineCount[0]++;
+
+};
+
+addMedicineRow.run();
+
+addMedicineButton.addActionListener(e -> addMedicineRow.run());
+
+JPanel eastPanel = new JPanel(new BorderLayout());
+JPanel medicineSection = new JPanel(new FlowLayout());
+JLabel medicineLabel=new JLabel("Medicines");
+treatmentPanel.add(medicineLabel);
+medicineLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+
+medicineSection.add(medicineContainer);
+
+eastPanel.add(treatmentPanel, BorderLayout.NORTH);
+eastPanel.add(medicineSection);
+
+medicalPanel.add(eastPanel);
+        add(medicalPanel);
+
+
+
+
+
         
          class DiagnosisListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
