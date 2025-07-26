@@ -79,7 +79,7 @@ final int[] medicineCount = {1};
         labelDate.setFont(new Font("SansSerif", Font.PLAIN, 32));
         jpInfo.add(labelDate);
 
-        JPanel jpCenter = new JPanel(new GridLayout(0, 1, 0, 20)); 
+        JPanel jpCenter = new JPanel(new GridLayout(5, 1, 0, 20)); 
 
         JLabel labelPatient = new JLabel("Patient");
         labelPatient.setFont(new Font("SansSerif", Font.BOLD, 28));
@@ -116,7 +116,7 @@ final int[] medicineCount = {1};
         symptomPanel.add(new JCheckBox("Blood in Urine"));
 
         JScrollPane scrollPane = new JScrollPane(symptomPanel);
-scrollPane.setPreferredSize(new Dimension(800, 1000));        
+scrollPane.setPreferredSize(new Dimension(900, 1000));        
 symptomsForm.add(symptomPanel);
 jpCenter.add(labelSymptoms);
 jpCenter.add(symptomsForm);
@@ -124,7 +124,6 @@ jpCenter.add(symptomsForm);
         othersFields.setVisible(false);
         JLabel labelDiagnosis = new JLabel("Diagnosis");
         labelDiagnosis.setFont(new Font("SansSerif", Font.BOLD, 28));
-        jpCenter.add(labelDiagnosis);
         
         JComboBox<String> diagnosisComboBox = new JComboBox<>(diagnoses);
         diagnosisComboBox.setPreferredSize(new Dimension(250, 30));
@@ -133,20 +132,16 @@ jpCenter.add(symptomsForm);
         JPanel diagnosisPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         diagnosisPanel.add(diagnosisComboBox);
         diagnosisPanel.add(othersFields);
-        jpCenter.add(diagnosisPanel);
 
        
 
         JLabel labelPatientStatus = new JLabel("Patient Status");
         labelPatientStatus.setFont(new Font("SansSerif", Font.BOLD, 28));
-        jpCenter.add(labelPatientStatus);
         JComboBox<String> statusDropdown = new JComboBox<>(patientStatuses);
 statusDropdown.setFont(new Font("SansSerif", Font.PLAIN, 18));
-jpCenter.add(statusDropdown);
 
         JLabel labelFollowUp = new JLabel("Follow-up Required");
         labelFollowUp.setFont(new Font("SansSerif", Font.BOLD, 28));
-        jpCenter.add(labelFollowUp);
 
         ButtonGroup followButton = new ButtonGroup();
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 30, 0));
@@ -160,7 +155,6 @@ jpCenter.add(statusDropdown);
         Font rbFont = new Font("SansSerif", Font.BOLD, 28);
         yesBtn.setFont(rbFont);
         noBtn.setFont(rbFont);
-        jpCenter.add(buttonPanel);
 
         JPanel jpSouth = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
         jbtAdd.setPreferredSize(new Dimension(150, 50));
