@@ -30,7 +30,7 @@ public class MessageUI {
          
     }
      
-     public static boolean addPatientConfimMessage(String ic) {
+     public static boolean addPatientConfirmMessage(String ic) {
         int result = JOptionPane.showConfirmDialog(null, "No such patient.\n Do you want do add this patient?","Add Patient",JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
              return true;

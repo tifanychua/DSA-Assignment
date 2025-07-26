@@ -1,6 +1,7 @@
 package boundary;
 
 
+import entity.Patient;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,8 @@ public class PatientInfo extends JPanel{
     private JFrame frame;
     private JPanel previousPage;
     private JPanel buttonPanel;
+    private Patient patient;
+    private boolean isNew;
     
     private JLabel IC;
     private JTextField tfIC;
@@ -69,9 +72,11 @@ public class PatientInfo extends JPanel{
     private JLabel tfBMI;
     
     
-    public PatientInfo(JFrame frame,JPanel previousPage){
+    public PatientInfo(JFrame frame,JPanel previousPage,Patient patient,boolean isNew){
         this.frame = frame;
         this.previousPage = previousPage;
+        this.patient=patient;
+        this.isNew=isNew;
         
         setLayout(new BorderLayout());
         
@@ -99,68 +104,10 @@ public class PatientInfo extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 
                if (btnUpdate.getText().equals("Edit")) {
-                    updateTextFieldState(tfIC, true);
-                    updateTextFieldState(tfName, true);
-                    updateTextFieldState(tfStudID, true);
-                    updateTextFieldState(tfPhoneNum, true);
-                    updateTextFieldState(tfBirthDate, true);
-                    updateTextFieldState(tfAppDate, true);
-                    updateTextFieldState(tfHeight, true);
-                    updateTextFieldState(tfWeight, true);
-                    updateTextFieldState(tfOccupation, true);
-                    updateTextFieldState(tfMaritalStatus, true);
-                    updateTextFieldState(tfReligion, true);
-                    updateTextFieldState(tfSmokingHabit, true);
-                    updateTextFieldState(tfEmerContactName, true);
-                    updateTextFieldState(tfEmerContactPhone, true);
-                    updateTextFieldState(tfEmerRelationship, true);
-
-                    updateTextAreaState(tfAddress, true);
-                    updateTextAreaState(tfAllergies, true);
-                    updateTextAreaState(tfChronicDiseases, true);
-                    updateTextAreaState(tfPastSurgeries, true);
-                    updateTextAreaState(tfVacc, true);
-                    updateTextAreaState(tfFamilyMedicalHis, true);
-                    updateTextFieldState(tfDoctorAss, true);
-
-                    tfBloodType.setEnabled(true);
-                    maleBtn.setEnabled(true);
-                    femaleBtn.setEnabled(true);
-
-                    btnUpdate.setText("Save");
-                    buttonPanel.setVisible(false);
+                    editable(true);
 
                 } else if (btnUpdate.getText().equals("Save")) {
-                    updateTextFieldState(tfIC, false);
-                    updateTextFieldState(tfName, false);
-                    updateTextFieldState(tfStudID, false);
-                    updateTextFieldState(tfPhoneNum, false);
-                    updateTextFieldState(tfBirthDate, false);
-                    updateTextFieldState(tfAppDate, false);
-                    updateTextFieldState(tfHeight, false);
-                    updateTextFieldState(tfWeight, false);
-                    updateTextFieldState(tfOccupation, false);
-                    updateTextFieldState(tfMaritalStatus, false);
-                    updateTextFieldState(tfReligion, false);
-                    updateTextFieldState(tfSmokingHabit, false);
-                    updateTextFieldState(tfEmerContactName, false);
-                    updateTextFieldState(tfEmerContactPhone, false);
-                    updateTextFieldState(tfEmerRelationship, false);
-
-                    updateTextAreaState(tfAddress, false);
-                    updateTextAreaState(tfAllergies, false);
-                    updateTextAreaState(tfChronicDiseases, false);
-                    updateTextAreaState(tfPastSurgeries, false);
-                    updateTextAreaState(tfVacc, false);
-                    updateTextAreaState(tfFamilyMedicalHis, false);
-                    updateTextFieldState(tfDoctorAss, false);
-
-                    tfBloodType.setEnabled(false);
-                    maleBtn.setEnabled(false);
-                    femaleBtn.setEnabled(false);
-
-                    btnUpdate.setText("Edit");
-                    buttonPanel.setVisible(true);
+                    editable(false);
                 }
             }
         });
@@ -194,6 +141,45 @@ public class PatientInfo extends JPanel{
         panel.add(personalInfoModule(),BorderLayout.NORTH);
         panel.add(medicalInfoModule(),BorderLayout.CENTER);
         panel.add(buttonPanel,BorderLayout.SOUTH);
+        
+        
+        if(isNew){
+             tfIC.setText(patient.getIc());
+             editable(true);
+          
+            
+        }else{
+            tfIC.setText(patient.getIc());
+            tfName.setText(patient.getName());
+            tfStudID.setText(patient.getStudID());
+            tfPhoneNum.setText(patient.getPhoneNum());
+            tfBirthDate.setText(patient.getBirthDate());
+            String trueGender = patient.getGender();
+            if (trueGender.equalsIgnoreCase("Male")) {
+                maleBtn.setSelected(true);
+                femaleBtn.setSelected(false);
+            } else if (trueGender.equalsIgnoreCase("Female")) {
+                maleBtn.setSelected(false);
+                femaleBtn.setSelected(true);
+            }
+            tfBloodType.setSelectedItem(patient.getBloodType());
+            tfAllergies.setText(patient.getAllergies());
+            tfChronicDiseases.setText(patient.getChronicDiseases());
+            tfAddress.setText(patient.getAddress());
+            tfPastSurgeries.setText(patient.getPastSurgeries());
+            tfVacc.setText(patient.getVacc());
+            tfFamilyMedicalHis.setText(patient.getFamilyMedicalHis());
+            tfAppDate.setText(patient.getAppDate());
+            tfDoctorAss.setText(patient.getDoctorAss());
+            tfOccupation.setText(patient.getOccupation());
+            tfMaritalStatus.setText(patient.getMaritalStatus());
+            tfReligion.setText(patient.getReligion());
+            tfSmokingHabit.setText(patient.getSmokingHabit());
+            tfEmerContactName.setText(patient.getEmerContactName());
+            tfEmerContactPhone.setText(patient.getEmerContactPhone());
+            tfEmerRelationship.setText(patient.getEmerRelationship());
+        }
+        
         return panel;
     }
     
@@ -342,6 +328,7 @@ public class PatientInfo extends JPanel{
        emerRelationship = labelFormat("Emergency Relationship : ");
        tfEmerRelationship=textFieldFormat(false,20);
        
+       
        panel.add(allergies);
        panel.add(scrollAllergies);
        panel.add(chronicDiseases);
@@ -488,10 +475,50 @@ public class PatientInfo extends JPanel{
     }
 }
     
+    private void editable(boolean isEditable){
+          updateTextFieldState(tfIC, isEditable);
+            updateTextFieldState(tfName, isEditable);
+            updateTextFieldState(tfStudID, isEditable);
+            updateTextFieldState(tfPhoneNum, isEditable);
+            updateTextFieldState(tfBirthDate, isEditable);
+            updateTextFieldState(tfAppDate, isEditable);
+            updateTextFieldState(tfHeight, isEditable);
+            updateTextFieldState(tfWeight, isEditable);
+            updateTextFieldState(tfOccupation, isEditable);
+            updateTextFieldState(tfMaritalStatus, isEditable);
+            updateTextFieldState(tfReligion, isEditable);
+            updateTextFieldState(tfSmokingHabit, isEditable);
+            updateTextFieldState(tfEmerContactName, isEditable);
+            updateTextFieldState(tfEmerContactPhone, isEditable);
+            updateTextFieldState(tfEmerRelationship, isEditable);
+
+            updateTextAreaState(tfAddress, isEditable);
+            updateTextAreaState(tfAllergies, isEditable);
+            updateTextAreaState(tfChronicDiseases, isEditable);
+            updateTextAreaState(tfPastSurgeries, isEditable);
+            updateTextAreaState(tfVacc, isEditable);
+            updateTextAreaState(tfFamilyMedicalHis, isEditable);
+            updateTextFieldState(tfDoctorAss, isEditable);
+            
+            tfBloodType.setEnabled(isEditable);
+            maleBtn.setEnabled(isEditable);
+            femaleBtn.setEnabled(isEditable);
+            
+            if(isEditable){
+                btnUpdate.setText("Save");
+            }else{
+                btnUpdate.setText("Edit");
+            }
+            
+            buttonPanel.setVisible(!isEditable);
+    }
+    
     public static void main(String[] args){
         JFrame frame=new JFrame();
         JPanel previousPage = new JPanel();
-        JPanel patientInfo = new PatientInfo(frame,previousPage);
+        Patient patient = new Patient();
+        boolean isNew=true;
+        JPanel patientInfo = new PatientInfo(frame,previousPage,patient,isNew);
         frame.add(patientInfo);
         frame.setVisible(true);
     }

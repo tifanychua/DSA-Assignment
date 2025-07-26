@@ -24,6 +24,10 @@ public class Patient {
     private String emerContactName;
     private String emerContactPhone;
     private String emerRelationship;
+    
+    public Patient(){
+        
+    }
 
     public Patient(String ic, String name, String studID, String phoneNum, String birthDate,String gender, String bloodType, String allergies, String chronicDiseases,String address, String pastSurgeries, String vacc, String familyMedicalHis,String appDate, String doctorAss, String occupation, String maritalStatus,String religion, String smokingHabit, String emerContactName,String emerContactPhone, String emerRelationship) {
     this.ic = ic;

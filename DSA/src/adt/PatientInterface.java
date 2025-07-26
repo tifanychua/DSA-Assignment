@@ -9,7 +9,7 @@ package adt;
  * @author Admin
  */
 public interface PatientInterface <T>{
-    boolean add(T newEntry);
+    boolean add(T newEnter);
     boolean add(int newPosition, T newEntry);
     T remove(int givenPosition);
     void clear();

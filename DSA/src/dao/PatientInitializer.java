@@ -10,7 +10,7 @@ import entity.Patient;
  * @author Admin
  */
 public class PatientInitializer {
-     public PatientInterface<Patient> initializeProducts() {
+     public PatientInterface<Patient> initializePatients() {
     PatientInterface<Patient> pList = new ArrayList<>();
     pList.add(new Patient("990101-01-1234", "Ali Bin Abu", "S1234567", "0123456789", "01/01/1999", "Male", "O", "Peanuts", "Asthma", "No.1, Jalan Mawar, KL", "Appendix", "Hepatitis B", "Diabetes", "22/07/2025", "Dr. Lim", "Student", "Single", "Islam", "No", "Abu Bin Ali", "0191234567", "Father"));
     pList.add(new Patient("991212-05-5678", "Siti Aminah", "S2234567", "0139876543", "12/12/1999", "Female", "A", "None", "None", "No.12, Jalan Teratai, PJ", "None", "Covid-19", "Hypertension", "23/07/2025", "Dr. Tan", "Clerk", "Married", "Islam", "No", "Mohd Ali", "0168889999", "Husband"));
@@ -38,7 +38,7 @@ public class PatientInitializer {
 
   public static void main(String[] args) {
     PatientInitializer initializer = new PatientInitializer();
-    PatientInterface<Patient> patientList = initializer.initializeProducts();
+    PatientInterface<Patient> patientList = initializer.initializePatients();
     System.out.println("\nPatient:\n" + patientList);
   }
 }

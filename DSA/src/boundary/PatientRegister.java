@@ -2,28 +2,21 @@ package boundary;
 
 
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import entity.Patient;
+
+import control.PatientControl;
+
+
 
         
 
 public class PatientRegister extends JPanel{
     private JFrame frame;
     private JPanel previousPage;
+    private boolean isNew=true;
     
     private JLabel patientIC;
     private JTextField tfIC;
@@ -62,7 +55,8 @@ public class PatientRegister extends JPanel{
         JMenuItem item4=new JMenuItem("Patient Info");
          item4.addActionListener(e -> {
             frame.getContentPane().removeAll();
-            JPanel panel =new PatientInfo(frame,PatientRegister.this);
+            Patient patient =new Patient();
+            JPanel panel =new PatientInfo(frame,PatientRegister.this,patient,isNew);
             frame.add(panel);
             frame.revalidate();
             frame.repaint();
@@ -98,6 +92,8 @@ public class PatientRegister extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 ic = tfIC.getText().trim();
+                PatientControl control = new PatientControl(frame, PatientRegister.this);
+                control.processSumbitIC();
             }
         });
         
@@ -118,37 +114,7 @@ public class PatientRegister extends JPanel{
         return tfIC;
     }
     
-    public String submit(String ic){
-        if (ic.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "IC cannot be empty.", "Input Error", JOptionPane.ERROR_MESSAGE);
-            tfIC.setText("");
-        }else if (!ic.matches("\\d{12}")) {
-            JOptionPane.showMessageDialog(null, "IC must be exactly 12 digits (numbers only).", "Format Error", JOptionPane.ERROR_MESSAGE);
-            tfIC.setText("");
-        }else{
-        if(ic.equals("123456789012")){
-            int result = JOptionPane.showConfirmDialog(null, "The patient name is : " + ic,"Confirmation",JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_OPTION) {
-                frame.getContentPane().removeAll();
-                JPanel regPage = new PatientInfo(frame,PatientRegister.this); 
-                frame.add(regPage);
-                frame.revalidate();
-                frame.repaint();
-            } else if (result == JOptionPane.NO_OPTION) {
-                System.out.println("User clicked NO");
-            }
-        }else{
-           int result = JOptionPane.showConfirmDialog(null, "No such patient.\n Do you want do add this patient?","Add Patient",JOptionPane.YES_NO_OPTION);
-           if (result == JOptionPane.YES_OPTION) {
-                System.out.println("User clicked YES");
-            } else if (result == JOptionPane.NO_OPTION) {
-                System.out.println("User clicked NO");
-            }
-        }
-        } 
-        return ic;
-    }
- 
+    
     public static void main(String[] args){
         JFrame frame=new JFrame();
         frame.setTitle("TARUMT Clinic");
