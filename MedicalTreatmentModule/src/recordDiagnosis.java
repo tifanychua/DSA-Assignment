@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.time.LocalDate;
 import javafx.beans.value.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 
 public class recordDiagnosis extends JFrame {
 final int MAX_MEDICINES = 5;
@@ -19,6 +20,8 @@ final int[] medicineCount = {1};
     private JLabel pressureLabel=new JLabel("Blood Pressure (mmHg):");
     private JLabel heartRateLabel=new JLabel("Heart Rate (bpm)");
     private JLabel temperatureLabel=new JLabel("Temperature (°C)");
+    private DefaultTableModel medicineModel;
+    private JTable medicineTable;
 
     String[] diagnoses = {
         "Common Cold",
@@ -79,7 +82,7 @@ final int[] medicineCount = {1};
         labelDate.setFont(new Font("SansSerif", Font.PLAIN, 32));
         jpInfo.add(labelDate);
 
-        JPanel jpCenter = new JPanel(new GridLayout(5, 1, 0, 20)); 
+        JPanel jpCenter = new JPanel(new GridLayout(0, 1, 0, 20)); 
 
         JLabel labelPatient = new JLabel("Patient");
         labelPatient.setFont(new Font("SansSerif", Font.BOLD, 28));
@@ -116,14 +119,23 @@ final int[] medicineCount = {1};
         symptomPanel.add(new JCheckBox("Blood in Urine"));
 
         JScrollPane scrollPane = new JScrollPane(symptomPanel);
-scrollPane.setPreferredSize(new Dimension(900, 1000));        
+scrollPane.setPreferredSize(new Dimension(800, 1000));        
 symptomsForm.add(symptomPanel);
 jpCenter.add(labelSymptoms);
 jpCenter.add(symptomsForm);
+Font checkboxFont = new Font("SansSerif", Font.PLAIN, 14);
+
+for (Component comp : symptomPanel.getComponents()) {
+    if (comp instanceof JCheckBox) {
+        comp.setFont(checkboxFont);
+    }
+}
+
         othersFields.setFont(new Font("SansSerif", Font.PLAIN, 20));
         othersFields.setVisible(false);
         JLabel labelDiagnosis = new JLabel("Diagnosis");
         labelDiagnosis.setFont(new Font("SansSerif", Font.BOLD, 28));
+        jpCenter.add(labelDiagnosis);
         
         JComboBox<String> diagnosisComboBox = new JComboBox<>(diagnoses);
         diagnosisComboBox.setPreferredSize(new Dimension(250, 30));
@@ -132,16 +144,20 @@ jpCenter.add(symptomsForm);
         JPanel diagnosisPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         diagnosisPanel.add(diagnosisComboBox);
         diagnosisPanel.add(othersFields);
+        jpCenter.add(diagnosisPanel);
 
        
 
         JLabel labelPatientStatus = new JLabel("Patient Status");
         labelPatientStatus.setFont(new Font("SansSerif", Font.BOLD, 28));
+        jpCenter.add(labelPatientStatus);
         JComboBox<String> statusDropdown = new JComboBox<>(patientStatuses);
 statusDropdown.setFont(new Font("SansSerif", Font.PLAIN, 18));
+jpCenter.add(statusDropdown);
 
         JLabel labelFollowUp = new JLabel("Follow-up Required");
         labelFollowUp.setFont(new Font("SansSerif", Font.BOLD, 28));
+        jpCenter.add(labelFollowUp);
 
         ButtonGroup followButton = new ButtonGroup();
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 30, 0));
@@ -155,6 +171,7 @@ statusDropdown.setFont(new Font("SansSerif", Font.PLAIN, 18));
         Font rbFont = new Font("SansSerif", Font.BOLD, 28);
         yesBtn.setFont(rbFont);
         noBtn.setFont(rbFont);
+        jpCenter.add(buttonPanel);
 
         JPanel jpSouth = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
         jbtAdd.setPreferredSize(new Dimension(150, 50));
@@ -332,7 +349,10 @@ eastPanel.add(medicineSection);
 medicalPanel.add(eastPanel);
         add(medicalPanel);
 
-
+String[] columnNames = {"Medicine Name", "Quantity"};
+        medicineModel = new DefaultTableModel(columnNames, 0);
+        medicineTable = new JTable(medicineModel);
+        JScrollPane tableScrollPane = new JScrollPane(medicineTable);
 
 
 

@@ -365,7 +365,8 @@ medicalPanel.add(eastPanel);
         diagnosisComboBox.addActionListener(new DiagnosisListener());
       
         JPanel jpSouth = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
-        jpSouth.add(jbtBack);
+        JButton jbtEdit=new JButton("Edit");
+        JButton jbtDel=new JButton("Delete");
         jpSouth.add(jbtEdit);
         jpSouth.add(jbtDel);
         Dimension buttonSize = new Dimension(150, 50);

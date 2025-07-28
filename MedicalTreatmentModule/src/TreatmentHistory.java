@@ -33,13 +33,13 @@ public class TreatmentHistory extends JFrame {
         table.setFont(new Font("SansSerif", Font.PLAIN, 16));
         table.setRowHeight(28);  
 
-        table.getTableHeader().setFont(new Font("Serif", Font.BOLD, 16));
+        table.getTableHeader().setFont(new Font("Serif", Font.BOLD, 28));
         jpTop.add(topicLabel,BorderLayout.CENTER);
         JPanel searchPanel=new JPanel(new FlowLayout(FlowLayout.LEFT));
         
         jpTop.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
         table.setBorder(BorderFactory.createEmptyBorder(0, 60, 0, 0));
-        table.setPreferredScrollableViewportSize(new Dimension(1800, 600));
+        table.setPreferredScrollableViewportSize(new Dimension(1800, 550));
         JPanel buttonPanel=new JPanel();
         Dimension buttonSize = new Dimension(150, 50); 
 okButton.setPreferredSize(buttonSize);
@@ -48,8 +48,12 @@ okButton.setPreferredSize(buttonSize);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
         add(jpTop,BorderLayout.NORTH);
         JPanel recordTable=new JPanel(new FlowLayout(FlowLayout.LEFT));
-        searchPanel.add(new JLabel("Search"));
-        searchPanel.add(new JTextField(25));
+        JLabel searchLabel=new JLabel("Search:");
+        searchPanel.add(searchLabel);
+        JTextField searchText=new JTextField(25);
+        searchPanel.add(searchText);
+                searchLabel.setFont(new Font("Serif", Font.BOLD, 28));
+                searchText.setPreferredSize(new Dimension(100,30));
         JPanel infoPanel=new JPanel(new FlowLayout(FlowLayout.LEFT));
         infoPanel.add(searchPanel);
         recordTable.add(scrollPane,BorderLayout.CENTER);
